@@ -1,0 +1,33 @@
+.page {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(9, 175, 204, 0.6);
+}
+
+.wrapper {
+    margin: 0 auto;
+}
+
+.buttons-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    column-gap: 16px;
+}
+
+.timer-display {
+    margin: 0 auto;
+    color: #000;
+    background-color: rgb(245, 245, 245);
+    height: 56px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 52px;
+    line-height: 1em;
+}
+
+.hr {
+    background-color: rgba(0, 0, 0, 0.56);
+}
