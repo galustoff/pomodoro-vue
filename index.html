@@ -20,25 +20,29 @@
         <title>Pomodoro</title>
     </head>
     <body class="page">
-        <div class="container-sm">
-            <p class="col-9 col-sm-7 col-md-5 timer-display">00:00</p>
+        <div class="container-sm" id="app">
+            <p class="col-9 col-sm-7 col-md-5 timer-display">
+                {{ minutes }}:{{ seconds }}
+            </p>
             <hr class="hr" />
             <div class="col-9 col-sm-7 col-md-5 wrapper">
                 <input
                     class="form-control"
-                    type="number"
-                    min="0"
-                    value=""
+                    type="text"
+                    maxlength="2"
                     aria-label="readonly input example"
+                    v-bind:placeholder="inputPlcHldr"
+                    v-on:input="handleInput"
                 />
             </div>
             <div class="col-3 wrapper buttons-wrapper">
-                <button type="button" class="btn btn-danger">Start</button>
-                <button type="button" class="btn btn-success">Pause</button>
-                <button type="button" class="btn btn-warning">Clear</button>
+                <button type="button" class="btn btn-danger" v-on:click="start">Start</button>
+                <button type="button" class="btn btn-success" v-on:click="stop">Stop</button>
+                <button type="button" class="btn btn-warning" v-on:click="clear">Clear</button>
             </div>
         </div>
-        <script src="./app.js"></script>
+
         <script src="https://unpkg.com/vue@next"></script>
+        <script src="./app.js"></script>
     </body>
 </html>
