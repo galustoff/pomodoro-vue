@@ -45,6 +45,11 @@ const app = Vue.createApp({
             return num < 10 ? `0${num}` : `${num}`;
         },
 
+        // Запуск по Enter
+        handleKeypress(e) {
+            if (e.key === "Enter") this.start();
+        },
+
         // Слушаем кнопки:
 
         // Пуск! (с защитой)
