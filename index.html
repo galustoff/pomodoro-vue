@@ -21,7 +21,7 @@
     </head>
     <body class="page">
         <div class="container-sm" id="app">
-            <p class="col-9 col-sm-7 col-md-5 timer-display">
+            <p class="col-9 col-sm-7 col-md-5 display-paragraph">
                 {{ minutes }}:{{ seconds }}
             </p>
             <hr class="hr" />
@@ -29,7 +29,7 @@
                 <input
                     class="form-control"
                     type="text"
-                    maxlength="2"
+                    maxlength="3"
                     aria-label="readonly input example"
                     v-bind:placeholder="inputPlcHldr"
                     v-on:input="handleInput"
@@ -40,6 +40,8 @@
                 <button type="button" class="btn btn-success" v-on:click="stop">Stop</button>
                 <button type="button" class="btn btn-warning" v-on:click="clear">Clear</button>
             </div>
+            <hr class="hr" />
+            <p class="col-9 col-sm-7 col-md-5 display-paragraph">{{ timeUpMsg }}</p>
         </div>
 
         <script src="https://unpkg.com/vue@next"></script>
