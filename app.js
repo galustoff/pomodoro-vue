@@ -7,7 +7,7 @@ const app = Vue.createApp({
             inputPlaceholder: "Enter seconds (600 max):",
             timeUpMsg: "",
             input: null, // к input привяжем поле ввода, чтобы потом можно было очищать его value
-            timerId: null, // сюда будем сохранять id от запуска setInterval
+            runId: null, // сюда будем сохранять id от запуска setInterval
         };
     },
 
@@ -18,8 +18,11 @@ const app = Vue.createApp({
          * При первом ивенте (input) привязываемся к полю ввода.
          * Если строка удовлетворяет условиям, то значения в таймере
          * обновляются "на ходу".
+         * upd: защита от ввода во время работы таймера
          */
         handleInput(e) {
+            if (this.runId) return;
+
             if (!this.input) this.input = e.target;
 
             if (
@@ -54,17 +57,17 @@ const app = Vue.createApp({
 
         // Пуск! (с защитой)
         start() {
-            if (!this.timerId) {
+            if (!this.runId) {
                 this._clearInput();
                 this._hideMsg();
-                this.timerId = setInterval(this._changeTime, 1000);
+                this.runId = setInterval(this._changeTime, 1000);
             }
         },
 
         // Стапэ!
         stop() {
-            clearInterval(this.timerId);
-            this.timerId = null;
+            clearInterval(this.runId);
+            this.runId = null;
         },
 
         // Чистим всё
