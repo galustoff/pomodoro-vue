@@ -1,17 +1,24 @@
 const app = Vue.createApp({
     data() {
         return {
-            minutes: "00",
+            minutes: "00", // строковые представления
             seconds: "00",
-            timeStamp: 0,
-            inputPlcHldr: "Enter seconds (600 max):",
+            timeStamp: 0, // время в секундах
+            inputPlaceholder: "Enter seconds (600 max):",
             timeUpMsg: "",
-            input: null,
-            timerId: null,
+            input: null, // к input привяжем поле ввода, чтобы потом можно было очищать его value
+            timerId: null, // сюда будем сохранять id от запуска setInterval
         };
     },
 
     methods: {
+        // Обработка ввода и установка данных:
+
+        /**
+         * При первом ивенте (input) привязываемся к полю ввода.
+         * Если строка удовлетворяет условиям, то значения в таймере
+         * обновляются "на ходу".
+         */
         handleInput(e) {
             if (!this.input) this.input = e.target;
 
@@ -26,6 +33,21 @@ const app = Vue.createApp({
             }
         },
 
+        // Устанавливаем время
+        _setTime(stamp) {
+            this.timeStamp = stamp;
+            this.minutes = this._stringify(Math.floor(stamp / 60));
+            this.seconds = this._stringify(stamp % 60);
+        },
+
+        // Добавляем нолики для красоты
+        _stringify(num) {
+            return num < 10 ? `0${num}` : `${num}`;
+        },
+
+        // Слушаем кнопки:
+
+        // Пуск! (с защитой)
         start() {
             if (!this.timerId) {
                 this._clearInput();
@@ -34,11 +56,13 @@ const app = Vue.createApp({
             }
         },
 
+        // Стапэ!
         stop() {
             clearInterval(this.timerId);
             this.timerId = null;
         },
 
+        // Чистим всё
         clear() {
             this._clearInput();
             this._cancelTime();
@@ -46,26 +70,9 @@ const app = Vue.createApp({
             this.stop();
         },
 
-        _setTime(stamp) {
-            this.timeStamp = stamp;
-            this.minutes = this._stringify(Math.floor(stamp / 60));
-            this.seconds = this._stringify(stamp % 60);
-        },
+        // Рабочие функции:
 
-        _stringify(num) {
-            return (num < 10) ? `0${num}` : `${num}`;
-        },
-
-        _clearInput() {
-            if (this.input) this.input.value = "";
-        },
-
-        _cancelTime() {
-            this.minutes = "00";
-            this.seconds = "00";
-            this.timeStamp = 0;
-        },
-
+        // Коллбэк для setInterval
         _changeTime() {
             if (this.timeStamp > 1) {
                 this._setTime(--this.timeStamp);
@@ -76,10 +83,24 @@ const app = Vue.createApp({
             }
         },
 
+        // Сбрасываем время
+        _cancelTime() {
+            this.minutes = "00";
+            this.seconds = "00";
+            this.timeStamp = 0;
+        },
+
+        // Очищаем поле ввода
+        _clearInput() {
+            if (this.input) this.input.value = "";
+        },
+
+        // Выдаём сообщение, что время вышло
         _showMsg() {
             this.timeUpMsg = "Time is up!";
         },
 
+        // Прячем сообщение
         _hideMsg() {
             this.timeUpMsg = "";
         },
